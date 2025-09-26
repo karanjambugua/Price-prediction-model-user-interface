@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const predictedPriceElement = document.getElementById('predicted-price');
   const priceRangeElement = document.getElementById('price-range');
   const confidenceLevelElement = document.getElementById('confidence-level');
-   const closeFormBtn = document.getElementById('close-form-btn');
+  const closeFormBtn = document.getElementById('close-form-btn');
 
   // Show product input section when "Get Price Prediction" button is clicked
   getPriceBtn.addEventListener('click', () => {
@@ -15,13 +15,16 @@ document.addEventListener('DOMContentLoaded', () => {
     productInputSection.classList.remove('hidden');
     productInputSection.scrollIntoView({ behavior: "smooth" });
   });
-if (closeFormBtn) {
+
+  // Close form and return to the home page
+  if (closeFormBtn) {
     closeFormBtn.addEventListener('click', () => {
       productInputSection.classList.add('hidden');
       document.getElementById('home')?.classList.remove('hidden');
       document.getElementById('home')?.scrollIntoView({ behavior: "smooth" });
     });
   }
+
   // Go back to the home page
   goBackBtn.addEventListener('click', () => {
     productInputSection.classList.add('hidden');
@@ -38,22 +41,16 @@ if (closeFormBtn) {
     const productName = document.getElementById('product-name').value;
     const category = document.getElementById('category').value;
     const brand = document.getElementById('brand').value;
-    const material = document.getElementById('material').value;
-    const size = parseFloat(document.getElementById('size').value);
     const condition = document.querySelector('input[name="condition"]:checked').value;
     const targetPrice = parseFloat(document.getElementById('target-price').value);
-    const location = document.getElementById('location').value;
 
-    // Build request body
+    // Build request body (remove unnecessary fields like location, size, material)
     const requestData = {
       product_name: productName,
       category: category,
       brand: brand,
-      material: material,
-      size: size,
       condition: condition,
-      target_price: targetPrice,
-      location: location
+      target_price: targetPrice
     };
 
     try {
@@ -94,6 +91,7 @@ if (closeFormBtn) {
     }
   });
 });
+
 document.addEventListener("DOMContentLoaded", () => {
   const hamburger = document.getElementById("hamburger");
   const navLinks = document.getElementById("nav-links");
