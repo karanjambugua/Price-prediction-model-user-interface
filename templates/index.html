@@ -36,40 +36,67 @@
   </section>
 
   <!-- PRODUCT INPUT SECTION -->
-  <section id="product-input" class="section-container hidden">
-    <div class="section-content">
-      <h2>Enter Product Details</h2>
-      <form id="product-form">
-        <input type="text" id="product-name" placeholder="Product Name" required>
-        <input type="text" id="category" placeholder="Category" required>
-        <input type="text" id="brand" placeholder="Brand" required>
-        <input type="text" id="material" placeholder="Material">
-        <input type="text" id="size" placeholder="Size/Dimensions">
-        <input type="number" id="target-price" placeholder="Target Price">
-        <input type="text" id="location" placeholder="Location">
+<section id="product-input" class="section-container hidden">
+  <div class="section-content">
+    <h2>Enter Product Details</h2>
+    <form id="product-form">
+      <!-- Product Name -->
+      <div>
+        <label for="product-name">Product Name</label>
+        <input type="text" id="product-name" name="product_name" placeholder="Product Name" required>
+      </div>
 
-        <div class="radio-group">
-          <label><input type="radio" name="condition" value="new"> New</label>
-          <label><input type="radio" name="condition" value="used"> Used</label>
-          <label><input type="radio" name="condition" value="refurbished"> Refurbished</label>
-        </div>
+      <!-- Original Price -->
+      <div>
+        <label for="original-price">Original Price</label>
+        <input type="number" id="original-price" name="original_price" placeholder="Original Price" step="0.01" required>
+      </div>
 
-        <button type="submit" class="cta-btn">Get Prediction</button>
-        <button type="button" id="close-form-btn" class="cta-btn secondary">Cancel</button>
-      </form>
-    </div>
-  </section>
+      <!-- Target Price -->
+      <div>
+        <label for="target-price">Target Price</label>
+        <input type="number" id="target-price" name="target_price" placeholder="Target Price" required>
+      </div>
+
+      <!-- Main Category Dropdown -->
+      <div>
+        <label for="main-category">Main Category</label>
+        <select id="main-category" name="main_category" required>
+          <option value="electronics">Electronics</option>
+          <option value="fashion">Fashion</option>
+          <option value="home_office">Home & Office</option>
+          <option value="toys">Toys</option>
+          <option value="beauty">Beauty</option>
+          <!-- Add other categories here as necessary -->
+        </select>
+      </div>
+
+      <!-- Condition Radio Buttons -->
+      <div class="radio-group">
+        <label><input type="radio" name="condition" value="new" required> New</label>
+        <label><input type="radio" name="condition" value="used"> Used</label>
+        <label><input type="radio" name="condition" value="refurbished"> Refurbished</label>
+      </div>
+
+      <!-- Submit and Cancel Buttons -->
+      <button type="submit" class="cta-btn">Get Prediction</button>
+      <button type="button" id="close-form-btn" class="cta-btn secondary">Cancel</button>
+    </form>
+  </div>
+</section>
+
 
   <!-- RESULT SECTION -->
-  <section id="price-results" class="section-container hidden">
-    <div class="section-content">
-      <h2>Price Prediction</h2>
-      <p id="predicted-price">Predicted Price: $</p>
-      <p id="price-range">Price Range: $</p>
-      <p id="confidence-level">Confidence Level: </p>
-      <button id="go-back-btn" class="cta-btn secondary">Go Back</button>
-    </div>
-  </section>
+<section id="price-results" class="section-container hidden">
+  <div class="section-content">
+    <h2>Price Prediction</h2>
+    <p id="predicted-price">Predicted Price: Ksh</p>
+    <p id="price-range">Price Range: Ksh</p>
+    <p id="confidence-level">Confidence Level: </p>
+    <button id="go-back-btn" class="cta-btn secondary">Go Back</button>
+  </div>
+</section>
+
 
   <!-- FOOTER -->
 <footer class="site-footer">
