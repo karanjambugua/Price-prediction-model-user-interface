@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Data - Price Predictor</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+ <!-- NAVBAR -->
+ <nav class="navbar">
+  <div class="nav-logo">Price Predictor</div>
+  
+  <!-- Hamburger Icon -->
+  <div class="hamburger" id="hamburger">☰</div>
+
+  <!-- Nav Links -->
+  <ul class="nav-links" id="nav-links">
+    <li><a href="{{ url_for('home') }}">Home</a></li>
+    <li><a href="{{ url_for('data') }}">Data</a></li>
+    <li><a href="{{ url_for('team') }}">The Team</a></li>
+    <li><a href="{{ url_for('research') }}">Research</a></li>
+  </ul>
+</nav>
+
+  <section class="section-container">
+    <div class="section-content">
+      <h2>Data Sources</h2>
+      <p>
+        Our model leverages datasets from multiple industries to ensure predictions 
+        are robust and generalizable across product categories.
+      </p>
+
+      <!-- Interactive Data Categories -->
+      <div class="data-grid">
+        <div class="data-card">
+          <h3>📱 Electronics</h3>
+          <p>Smartphones, laptops, and accessories with attributes like brand, specs, and condition.</p>
+        </div>
+        <div class="data-card">
+          <h3>👕 Clothing</h3>
+          <p>Fashion data including material, size, brand popularity, and seasonal demand.</p>
+        </div>
+        <div class="data-card">
+          <h3>🍎 Food Products</h3>
+          <p>Packaged goods, perishable items, and pricing trends influenced by freshness and location.</p>
+        </div>
+      </div>
+
+      <!-- Interactive chart placeholder -->
+      <div class="chart-placeholder">
+        <h3>📊 Price Distribution (Coming Soon)</h3>
+        <p>An interactive chart will visualize pricing trends across categories.</p>
+      </div>
+    </div>
+  </section>
+</body>
+</html>

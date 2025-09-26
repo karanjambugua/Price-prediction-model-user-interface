@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Price Predictor</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+  <!-- NAVBAR -->
+ <nav class="navbar">
+  <div class="nav-logo">Price Predictor</div>
+  
+  <!-- Hamburger Icon -->
+  <div class="hamburger" id="hamburger">☰</div>
+
+  <!-- Nav Links -->
+  <ul class="nav-links" id="nav-links">
+    <li><a href="{{ url_for('home') }}">Home</a></li>
+    <li><a href="{{ url_for('data') }}">Data</a></li>
+    <li><a href="{{ url_for('team') }}">The Team</a></li>
+    <li><a href="{{ url_for('research') }}">Research</a></li>
+  </ul>
+</nav>
+
+  <!-- HERO SECTION -->
+  <section id="home" class="hero-section">
+    <div class="hero-overlay">
+      <div class="hero-content">
+        <h1 class="hero-title">Welcome to Price Prediction Tool</h1>
+        <p class="hero-subtext">Helping entrepreneurs set competitive prices for their products.</p>
+        <button id="get-price-btn" class="cta-btn">Get Price Prediction</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODUCT INPUT SECTION -->
+  <section id="product-input" class="section-container hidden">
+    <div class="section-content">
+      <h2>Enter Product Details</h2>
+      <form id="product-form">
+        <input type="text" id="product-name" placeholder="Product Name" required>
+        <input type="text" id="category" placeholder="Category" required>
+        <input type="text" id="brand" placeholder="Brand" required>
+        <input type="text" id="material" placeholder="Material">
+        <input type="text" id="size" placeholder="Size/Dimensions">
+        <input type="number" id="target-price" placeholder="Target Price">
+        <input type="text" id="location" placeholder="Location">
+
+        <div class="radio-group">
+          <label><input type="radio" name="condition" value="new"> New</label>
+          <label><input type="radio" name="condition" value="used"> Used</label>
+          <label><input type="radio" name="condition" value="refurbished"> Refurbished</label>
+        </div>
+
+        <button type="submit" class="cta-btn">Get Prediction</button>
+        <button type="button" id="close-form-btn" class="cta-btn secondary">Cancel</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- RESULT SECTION -->
+  <section id="price-results" class="section-container hidden">
+    <div class="section-content">
+      <h2>Price Prediction</h2>
+      <p id="predicted-price">Predicted Price: $</p>
+      <p id="price-range">Price Range: $</p>
+      <p id="confidence-level">Confidence Level: </p>
+      <button id="go-back-btn" class="cta-btn secondary">Go Back</button>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+<footer class="site-footer">
+  <div class="footer-container">
+
+    <!-- Column 1: Logo & Tagline -->
+    <div class="footer-col">
+      <h3>Price Predictor</h3>
+      <p>Empowering entrepreneurs with data-driven pricing decisions.</p>
+    </div>
+
+    <!-- Column 2: Quick Links -->
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="{{ url_for('home') }}">Home</a></li>
+        <li><a href="{{ url_for('data') }}">Data</a></li>
+        <li><a href="{{ url_for('research') }}">Research</a></li>
+        <li><a href="{{ url_for('team') }}">The Team</a></li>
+      </ul>
+    </div>
+
+    <!-- Column 3: Contact -->
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <p>Email: <a href="mailto:support@pricepredictor.com">support@pricepredictor.com</a></p>
+      <p>Phone: +254 (123) 456-789</p>
+    </div>
+
+    <!-- Column 4: Socials -->
+    <div class="footer-col">
+      <h4>Follow Us</h4>
+      <div class="social-links">
+        <a href="#">🌐 LinkedIn</a><br>
+        <a href="#">🐦 Twitter</a><br>
+        <a href="#">📘 Facebook</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Bar -->
+  <div class="footer-bottom">
+    <p>&copy; 2025 Price Predictor. All rights reserved.</p>
+  </div>
+</footer>
+
+
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

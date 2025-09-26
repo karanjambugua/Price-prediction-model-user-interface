@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meet the Team</title>
+     <link rel="stylesheet" href="{{ url_for('static', filename='team.css') }}">
+       <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<!-- NAVBAR -->
+ <nav class="navbar">
+  <div class="nav-logo">Price Predictor</div>
+  
+  <!-- Hamburger Icon -->
+  <div class="hamburger" id="hamburger">☰</div>
+
+  <!-- Nav Links -->
+  <ul class="nav-links" id="nav-links">
+    <li><a href="{{ url_for('home') }}">Home</a></li>
+    <li><a href="{{ url_for('data') }}">Data</a></li>
+    <li><a href="{{ url_for('team') }}">The Team</a></li>
+    <li><a href="{{ url_for('research') }}">Research</a></li>
+  </ul>
+</nav>
+    <div class="container">
+        <header>
+            <div class="logo">
+    <img src="/static/images/LOGO-removebg-preview.png" alt="Logo" />
+</div>
+            <nav>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                <li><a href="/team">Meet The Team</a></li>
+                   
+                </ul>
+            </nav>
+        </header>
+
+        <section class="team-section">
+            <h1>MEET THE TEAM</h1>
+            
+            <div class="team-container">
+    <!-- Repeating 7 team member containers -->
+    <div class="team-member">
+        <img src="/static/images/hafsa (2).png" alt="Hafsa Mohamed Aden">
+        <h3>Hafsa Mohamed Aden</h3>
+        <p>Data Processing</p>
+        <p>Hafsa played a crucial role in cleaning and preparing the tweet dataset, ensuring that the data was accurate and ready for sentiment analysis. Her attention to detail in data preprocessing helped set a strong foundation for model training.</p>
+    </div>
+    <div class="team-member">
+        <img src="/static/images/rayo.png" alt="Ryan Karimi">
+        <h3>Ryan Karimi</h3>
+        <p>Data Processing</p>
+        <p>Ryan's expertise in data preprocessing helped remove noise and irrelevant information from the tweet dataset. He focused on ensuring high-quality input, which was key in achieving reliable sentiment predictions.</p>
+    </div>
+    <div class="team-member">
+        <img src="/static/images/Rosy.png" alt="Rose Muthini">
+        <h3>Rose Muthini</h3>
+        <p>Modelling</p>
+        <p>Rose was responsible for training the sentiment analysis model. Her skills in model selection and evaluation helped in fine-tuning the Logistic Regression model, resulting in improved prediction accuracy for sentiment classification.</p>
+    </div>
+    <div class="team-member">
+        <img src="/static/images/lizy.png" alt="Elizabeth Ogutu">
+        <h3>Elizabeth Ogutu</h3>
+        <p>Modelling</p>
+        <p>Elizabeth worked alongside Rose to optimize the models. She played a key role in evaluating the models' performance, using metrics such as precision and recall to ensure reliable and balanced predictions for sentiment analysis.</p>
+    </div>
+    <div class="team-member">
+        <img src="/static/images/lewi-removebg-preview.png" alt="Lewis Karanja">
+        <h3>Lewis Karanja</h3>
+        <p>Deployment</p>
+        <p>Lewis handled the deployment of the sentiment analysis system, ensuring it was integrated into a user-friendly web interface. He also worked on making the application efficient and easy to use, ensuring smooth user interactions with the analysis tool.</p>
+    </div>
+    <div class="team-member">
+        <img src="/static/images/Harris.png" alt="Harrison Kuria">
+        <h3>Harrison Kuria</h3>
+        <p>Deployment</p>
+        <p>Harrison contributed to the backend development and deployment of the system. His work ensured that the sentiment analysis application was scalable and could handle multiple users seamlessly, allowing real-time sentiment analysis of tweets.</p>
+    </div>
+</div>
+        </section>
+
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Research - Price Predictor</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <!-- NAVBAR -->
+<nav class="navbar">
+  <div class="nav-logo">Price Predictor</div>
+  
+  <!-- Hamburger Icon -->
+  <div class="hamburger" id="hamburger">☰</div>
+
+  <!-- Nav Links -->
+  <ul class="nav-links" id="nav-links">
+    <li><a href="{{ url_for('home') }}">Home</a></li>
+    <li><a href="{{ url_for('data') }}">Data</a></li>
+    <li><a href="{{ url_for('team') }}">The Team</a></li>
+    <li><a href="{{ url_for('research') }}">Research</a></li>
+  </ul>
+</nav>
+
+  <section class="section-container">
+    <div class="section-content">
+      <h2>Research & Technology</h2>
+      <p>
+        Our price prediction model is built on advanced **machine learning techniques** 
+        and trained on diverse datasets spanning multiple product categories. 
+      </p>
+
+      <!-- Accordion for ML methods -->
+      <div class="accordion">
+        <button class="accordion-btn">📊 Random Forest</button>
+        <div class="accordion-content">
+          <p>
+            We use a Random Forest regression model to capture complex relationships 
+            between product attributes and prices. Its ensemble approach reduces 
+            overfitting and improves accuracy.
+          </p>
+        </div>
+
+        <button class="accordion-btn">🧮 Feature Engineering</button>
+        <div class="accordion-content">
+          <p>
+            Features such as product category, brand, condition, and market location 
+            are preprocessed using scaling, encoding, and missing-value handling.
+          </p>
+        </div>
+
+        <button class="accordion-btn">📈 Evaluation Metrics</button>
+        <div class="accordion-content">
+          <p>
+            The model achieved an <b>R² score of 0.992</b>, indicating high accuracy. 
+            We also validate using Mean Squared Error (MSE) and cross-validation techniques.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // Accordion toggle logic
+    const accBtns = document.querySelectorAll(".accordion-btn");
+    accBtns.forEach(btn => {
+      btn.addEventListener("click", () => {
+        btn.classList.toggle("active");
+        const content = btn.nextElementSibling;
+        content.style.display = content.style.display === "block" ? "none" : "block";
+      });
+    });
+  </script>
+</body>
+</html>
