@@ -18,7 +18,7 @@
   <!-- Nav Links -->
   <ul class="nav-links" id="nav-links">
     <li><a href="{{ url_for('home') }}">Home</a></li>
-    <li><a href="{{ url_for('data') }}">Data</a></li>
+    <li><a href="{{ url_for('data_page') }}">Data</a></li>  <!-- Changed to match function name -->
     <li><a href="{{ url_for('team') }}">The Team</a></li>
     <li><a href="{{ url_for('research') }}">Research</a></li>
   </ul>
@@ -41,24 +41,7 @@
     <h2>Enter Product Details</h2>
     <form id="product-form">
       <!-- Product Name -->
-      <div>
-        <label for="product-name">Product Name</label>
-        <input type="text" id="product-name" name="product_name" placeholder="Product Name" required>
-      </div>
-
-      <!-- Original Price -->
-      <div>
-        <label for="original-price">Original Price</label>
-        <input type="number" id="original-price" name="original_price" placeholder="Original Price" step="0.01" required>
-      </div>
-
-      <!-- Target Price -->
-      <div>
-        <label for="target-price">Target Price</label>
-        <input type="number" id="target-price" name="target_price" placeholder="Target Price" required>
-      </div>
-
-      <!-- Main Category Dropdown -->
+     <!-- Main Category Dropdown -->
       <div>
         <label for="main-category">Main Category</label>
         <select id="main-category" name="main_category" required>
@@ -69,6 +52,18 @@
           <option value="beauty">Beauty</option>
           <!-- Add other categories here as necessary -->
         </select>
+      </div>
+
+      <div>
+        <label for="product-name">Product Name</label>
+        <input type="text" id="product-name" name="product_name" placeholder="Product Name" required>
+        <div id="search-results"></div>  <!-- Add search results container -->
+      </div>
+
+      <!-- Original Price -->
+      <div>
+        <label for="original-price">Original Price</label>
+        <input type="number" id="original-price" name="original_price" placeholder="Original Price" step="0.01" required>
       </div>
 
       <!-- Condition Radio Buttons -->
@@ -85,18 +80,17 @@
   </div>
 </section>
 
-
   <!-- RESULT SECTION -->
 <section id="price-results" class="section-container hidden">
   <div class="section-content">
     <h2>Price Prediction</h2>
+    <p id="original-price-display">Original Price: Ksh</p>
     <p id="predicted-price">Predicted Price: Ksh</p>
     <p id="price-range">Price Range: Ksh</p>
     <p id="confidence-level">Confidence Level: </p>
     <button id="go-back-btn" class="cta-btn secondary">Go Back</button>
   </div>
 </section>
-
 
   <!-- FOOTER -->
 <footer class="site-footer">
@@ -113,7 +107,7 @@
       <h4>Quick Links</h4>
       <ul>
         <li><a href="{{ url_for('home') }}">Home</a></li>
-        <li><a href="{{ url_for('data') }}">Data</a></li>
+        <li><a href="{{ url_for('data_page') }}">Data</a></li>  <!-- Changed to match function name -->
         <li><a href="{{ url_for('research') }}">Research</a></li>
         <li><a href="{{ url_for('team') }}">The Team</a></li>
       </ul>
@@ -142,7 +136,6 @@
     <p>&copy; 2025 Price Predictor. All rights reserved.</p>
   </div>
 </footer>
-
 
   <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
