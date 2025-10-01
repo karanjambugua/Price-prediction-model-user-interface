@@ -148,3 +148,44 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
+  // Fetch the latest 4 predictions from the backend
+fetch('/latest_predictions')
+  .then(response => response.json())
+  .then(data => {
+    const predictionCards = document.getElementById('prediction-cards');
+    
+    // Clear previous content in case of any re-renders
+    predictionCards.innerHTML = '';
+
+    // Loop through the latest predictions and create a card for each
+    data.forEach(product => {
+      // Check if the necessary data exists to prevent empty cards
+      if (product.input_data && product.prediction) {
+        const card = document.createElement('div');
+        card.classList.add('prediction-card');
+
+        card.innerHTML = `
+          <h3>${product.input_data.product_name}</h3>
+          <p>Category: ${product.input_data.main_category || 'N/A'}</p>
+          <p>Current Price: KSh ${product.input_data.original_price || 'N/A'}</p>
+          <p>Predicted Price: KSh ${product.prediction.prediction || 'N/A'}</p>
+          <p>Price Range: KSh ${product.prediction.price_range.low || 'N/A'} - KSh ${product.prediction.price_range.high || 'N/A'}</p>
+          <p>Confidence: ${product.prediction.confidence || 'N/A'}</p>
+          <button class="more-info-btn">More Info</button>
+          <p class="timestamp" style="display:none;">Timestamp: ${product.timestamp || 'N/A'}</p> <!-- Hidden until clicked -->
+        `;
+
+        predictionCards.appendChild(card);
+      }
+    });
+
+    // Event listener for More Info button
+    const moreInfoButtons = document.querySelectorAll('.more-info-btn');
+    moreInfoButtons.forEach(button => {
+      button.addEventListener('click', (event) => {
+        const timestampElement = event.target.closest('.prediction-card').querySelector('.timestamp');
+        timestampElement.style.display = (timestampElement.style.display === 'block') ? 'none' : 'block';
+      });
+    });
+  })
+  .catch(error => console.log('Error fetching predictions:', error));

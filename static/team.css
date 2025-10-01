@@ -107,3 +107,12 @@ header nav ul li a {
     width: 80px;  /* Adjust the width as needed */
     height: auto;  /* Maintain aspect ratio */
 }
+h5 {
+  color: rgb(0, 0, 0);
+    font-size: 30px;
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+

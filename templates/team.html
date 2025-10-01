@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meet the Team</title>
-     <link rel="stylesheet" href="{{ url_for('static', filename='team.css') }}">
-       <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='team.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
 <!-- NAVBAR -->
@@ -17,28 +17,17 @@
 
   <!-- Nav Links -->
   <ul class="nav-links" id="nav-links">
-    <li><a href="{{ url_for('home') }}">Home</a></li>
-    <li><a href="{{ url_for('data') }}">Data</a></li>
-    <li><a href="{{ url_for('team') }}">The Team</a></li>
-    <li><a href="{{ url_for('research') }}">Research</a></li>
-  </ul>
+  <li><a href="{{ url_for('home') }}">Home</a></li>
+  <li><a href="{{ url_for('data_page') }}">Data</a></li>
+  <li><a href="{{ url_for('team') }}">The Team</a></li>
+  <li><a href="{{ url_for('research') }}">Research</a></li>
+</ul>
+
 </nav>
     <div class="container">
-        <header>
-            <div class="logo">
-    <img src="/static/images/LOGO-removebg-preview.png" alt="Logo" />
-</div>
-            <nav>
-                <ul>
-                    <li><a href="/">Home</a></li>
-                <li><a href="/team">Meet The Team</a></li>
-                   
-                </ul>
-            </nav>
-        </header>
 
         <section class="team-section">
-            <h1>MEET THE TEAM</h1>
+            <h5>MEET THE TEAM</h5>
             
             <div class="team-container">
     <!-- Repeating 7 team member containers -->
@@ -82,6 +71,50 @@
         </section>
 
     </div>
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="footer-container">
+
+    <!-- Column 1: Logo & Tagline -->
+    <div class="footer-col">
+      <h3>Price Predictor</h3>
+      <p>Empowering entrepreneurs with data-driven pricing decisions.</p>
+    </div>
+
+    <!-- Column 2: Quick Links -->
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="{{ url_for('home') }}">Home</a></li>
+        <li><a href="{{ url_for('data_page') }}">Data</a></li>
+        <li><a href="{{ url_for('research') }}">Research</a></li>
+        <li><a href="{{ url_for('team') }}">The Team</a></li>
+      </ul>
+    </div>
+
+    <!-- Column 3: Contact -->
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <p>Email: <a href="mailto:support@pricepredictor.com">support@pricepredictor.com</a></p>
+      <p>Phone: +254 (123) 456-789</p>
+    </div>
+
+    <!-- Column 4: Socials -->
+    <div class="footer-col">
+      <h4>Follow Us</h4>
+      <div class="social-links">
+        <a href="https://www.linkedin.com" target="_blank">🌐 LinkedIn</a><br>
+        <a href="https://twitter.com" target="_blank">🐦 Twitter</a><br>
+        <a href="https://www.facebook.com" target="_blank">📘 Facebook</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Bar -->
+  <div class="footer-bottom">
+    <p>&copy; 2025 Price Predictor. All rights reserved.</p>
+  </div>
+</footer>
 
 </body>
 </html>

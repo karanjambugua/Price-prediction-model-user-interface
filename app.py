@@ -9,6 +9,32 @@ from datetime import datetime
 app = Flask(__name__)
 print("Current working directory:", os.getcwd())
 
+
+# Path to the predictions JSON file
+predictions_file = 'predictions.json'
+
+# Route to get the last 4 predictions from the predictions.json file
+@app.route('/latest_predictions')
+def latest_predictions():
+    try:
+        # Open and load the predictions JSON file
+        with open(predictions_file, 'r') as file:
+            # Read all the lines in the file
+            lines = file.readlines()
+
+        # Parse the JSON content
+        predictions = [json.loads(line) for line in lines]
+        
+        # Get the latest 6 predictions (if available)
+        latest_predictions = predictions[-6:]  # Get the last 6 predictions
+
+        # Return the latest predictions as JSON
+        return jsonify(latest_predictions)
+
+    except Exception as e:
+        return jsonify({"error": str(e)})
+
+
 # ------------------------------
 # CONFIG
 # ------------------------------
@@ -175,7 +201,23 @@ def save_prediction_to_file(input_data, prediction_data):
 # ------------------------------
 @app.route('/')
 def home():
-    return render_template('index.html')
+    # Extract unique categories from the 'main_category' column of your data
+    categories = data['main_category'].unique()
+
+    # Pass categories to the template
+    return render_template('index.html', categories=categories)
+
+@app.route('/data')
+def data_page():
+    return render_template('data.html')
+
+@app.route('/team')
+def team():
+    return render_template('team.html')
+
+@app.route('/research')
+def research():
+    return render_template('research.html')
 
 @app.route('/search', methods=['GET'])
 def search():
@@ -195,17 +237,6 @@ def search():
         })
     return jsonify(out)
 
-@app.route('/data')
-def data_page():
-    return render_template('data.html')
-
-@app.route('/team')
-def team():
-    return render_template('team.html')
-
-@app.route('/research')
-def research():
-    return render_template('research.html')
 
 @app.route('/predict', methods=['POST'])
 def predict():

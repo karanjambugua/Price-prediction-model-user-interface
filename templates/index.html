@@ -17,11 +17,12 @@
 
   <!-- Nav Links -->
   <ul class="nav-links" id="nav-links">
-    <li><a href="{{ url_for('home') }}">Home</a></li>
-    <li><a href="{{ url_for('data_page') }}">Data</a></li>  <!-- Changed to match function name -->
-    <li><a href="{{ url_for('team') }}">The Team</a></li>
-    <li><a href="{{ url_for('research') }}">Research</a></li>
-  </ul>
+  <li><a href="{{ url_for('home') }}">Home</a></li>
+  <li><a href="{{ url_for('data_page') }}">Data</a></li>
+  <li><a href="{{ url_for('team') }}">The Team</a></li>
+  <li><a href="{{ url_for('research') }}">Research</a></li>
+</ul>
+
 </nav>
 
   <!-- HERO SECTION -->
@@ -42,17 +43,16 @@
     <form id="product-form">
       <!-- Product Name -->
      <!-- Main Category Dropdown -->
-      <div>
-        <label for="main-category">Main Category</label>
-        <select id="main-category" name="main_category" required>
-          <option value="electronics">Electronics</option>
-          <option value="fashion">Fashion</option>
-          <option value="home_office">Home & Office</option>
-          <option value="toys">Toys</option>
-          <option value="beauty">Beauty</option>
-          <!-- Add other categories here as necessary -->
-        </select>
-      </div>
+     <div>
+  <label for="main-category">Main Category</label>
+  <select id="main-category" name="main_category" required>
+    <!-- Dynamically add options from categories -->
+    {% for category in categories %}
+      <option value="{{ category }}">{{ category }}</option>
+    {% endfor %}
+  </select>
+</div>
+
 
       <div>
         <label for="product-name">Product Name</label>
@@ -91,8 +91,27 @@
     <button id="go-back-btn" class="cta-btn secondary">Go Back</button>
   </div>
 </section>
+ <!-- PREDICTION CARDS SECTION -->
+<section id="product-predictions" class="section-container">
+  <div class="section-content">
+    <h2>Product Predictions</h2>
+    <div class="prediction-cards" id="prediction-cards">
+      <!-- Sample Card (This will be generated dynamically from predictions) -->
+      <div class="prediction-card">
+        <h3>{{ product_name }}</h3>
+        <p>Category: {{ category }}</p>
+        <p>Current Price: KSh {{ current_price }}</p>
+        <p>Predicted Price: KSh {{ predicted_price }}</p>
+        <p class="price-range">Price Range: KSh {{ price_range_low }} - KSh {{ price_range_high }}</p>
+        <p class="confidence">Confidence: {{ confidence }}</p>
+        <button class="more-info-btn">More Info</button>
+        <p class="timestamp">{{ timestamp }}</p> <!-- Hidden until clicked -->
+      </div>
+    </div>
+  </div>
+</section>
 
-  <!-- FOOTER -->
+ <!-- FOOTER -->
 <footer class="site-footer">
   <div class="footer-container">
 
@@ -107,7 +126,7 @@
       <h4>Quick Links</h4>
       <ul>
         <li><a href="{{ url_for('home') }}">Home</a></li>
-        <li><a href="{{ url_for('data_page') }}">Data</a></li>  <!-- Changed to match function name -->
+        <li><a href="{{ url_for('data_page') }}">Data</a></li>
         <li><a href="{{ url_for('research') }}">Research</a></li>
         <li><a href="{{ url_for('team') }}">The Team</a></li>
       </ul>
@@ -124,9 +143,9 @@
     <div class="footer-col">
       <h4>Follow Us</h4>
       <div class="social-links">
-        <a href="#">🌐 LinkedIn</a><br>
-        <a href="#">🐦 Twitter</a><br>
-        <a href="#">📘 Facebook</a>
+        <a href="https://www.linkedin.com" target="_blank">🌐 LinkedIn</a><br>
+        <a href="https://twitter.com" target="_blank">🐦 Twitter</a><br>
+        <a href="https://www.facebook.com" target="_blank">📘 Facebook</a>
       </div>
     </div>
   </div>
@@ -136,6 +155,7 @@
     <p>&copy; 2025 Price Predictor. All rights reserved.</p>
   </div>
 </footer>
+
 
   <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
