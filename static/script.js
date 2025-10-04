@@ -9,6 +9,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const confidenceLevelElement = document.getElementById('confidence-level');
   const originalPriceDisplay = document.getElementById('original-price-display');
   const closeFormBtn = document.getElementById('close-form-btn');
+  const categoryDropdown = document.getElementById('main-category');
+  const conditionOptions = document.getElementById('condition-options'); // The condition checkboxes container
 
   // Show product input section when "Get Price Prediction" button is clicked
   getPriceBtn.addEventListener('click', () => {
@@ -34,121 +36,166 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('home').scrollIntoView({ behavior: "smooth" });
   });
 
+  // Show condition options only for Electronics
+  categoryDropdown.addEventListener('change', () => {
+    const selectedCategory = categoryDropdown.value;
+
+    if (selectedCategory === 'electronics') {
+      conditionOptions.style.display = 'block';  // Show the condition options (radio buttons)
+    } else {
+      conditionOptions.style.display = 'none';  // Hide them for other categories
+    }
+  });
+
   // Handle form submission and call API
-  productForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
+ // Handle form submission and pass the condition correctly
+productForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
 
-    // Collect values from the form
-    const productName = document.getElementById('product-name').value;
-    const originalPrice = parseFloat(document.getElementById('original-price').value);
-    const mainCategory = document.getElementById('main-category').value;
-    const condition = document.querySelector('input[name="condition"]:checked').value;
+  const productName = document.getElementById('product-name').value;
+  const originalPrice = parseFloat(document.getElementById('original-price').value);
+  const mainCategory = document.getElementById('main-category').value;
+  
+  // Get the selected condition value, if it exists
+  let condition = 'new';  // Default to 'new' if no condition is selected
+  if (document.querySelector('input[name="condition"]:checked')) {
+    condition = document.querySelector('input[name="condition"]:checked').value;
+  }
 
-    const requestData = {
-      product_name: productName,
-      original_price: originalPrice,
-      main_category: mainCategory,
-      condition: condition
-    };
+  // Fetch current price data for the selected product from the backend for validation
+  const productDataResponse = await fetch(`/get_product_data?q=${encodeURIComponent(productName)}`);
+  const productData = await productDataResponse.json();
 
-    try {
-      const response = await fetch('/predict_api', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(requestData)
-      });
+  if (productData.error) {
+    alert(`Product not found: ${productData.error}`);
+    return;
+  }
 
-      const result = await response.json();
+  // Dynamically check if the entered price is too low or too high
+  const productCurrentPrice = productData.current_price;
+  const productOriginalPrice = productData.original_price;
 
-      if (result.error) {
-        predictedPriceElement.textContent = `Error: ${result.error}`;
-        priceRangeElement.textContent = '';
-        confidenceLevelElement.textContent = '';
-        originalPriceDisplay.textContent = '';
-      } else {
-        predictedPriceElement.textContent = `Predicted Price: KSh ${result.prediction.toFixed(2)}`;
-        priceRangeElement.textContent = `Price Range: KSh ${result.price_range.low.toFixed(2)} - KSh ${result.price_range.high.toFixed(2)}`;
-        confidenceLevelElement.textContent = `Confidence Level: ${result.confidence}`;
-        originalPriceDisplay.textContent = `Original Price: KSh ${originalPrice.toFixed(2)}`;
-      }
+  // Define reasonable bounds: let's say 50% to 150% of the current price as a valid range
+  const minPrice = productCurrentPrice * 0.5;  // 50% lower than current price
+  const maxPrice = productCurrentPrice * 1.5;  // 150% higher than current price
 
-      productInputSection.classList.add('hidden');
-      priceResultsSection.classList.remove('hidden');
-      priceResultsSection.scrollIntoView({ behavior: "smooth" });
+  // Check if the entered original price is within the reasonable range
+  if (originalPrice < minPrice || originalPrice > maxPrice) {
+    alert(`The entered price is unrealistic. Please enter a price between KSh ${minPrice.toFixed(2)} and KSh ${maxPrice.toFixed(2)} for this product.`);
+    return;
+  }
 
-    } catch (error) {
-      predictedPriceElement.textContent = `Request failed: ${error.message}`;
+  const requestData = {
+    product_name: productName,
+    original_price: originalPrice,
+    main_category: mainCategory,
+    condition: condition
+  };
+
+  try {
+    const response = await fetch('/predict_api', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(requestData)
+    });
+
+    const result = await response.json();
+
+    if (result.error) {
+      predictedPriceElement.textContent = `Error: ${result.error}`;
       priceRangeElement.textContent = '';
       confidenceLevelElement.textContent = '';
       originalPriceDisplay.textContent = '';
-      priceResultsSection.classList.remove('hidden');
-      priceResultsSection.scrollIntoView({ behavior: "smooth" });
-    }
-  });
+    } else {
 
-  // --- Autocomplete for Product Name ---
-  const nameInput = document.getElementById('product-name');
-  const categorySelect = document.getElementById('main-category');
-  const searchResults = document.getElementById('search-results');
-
-  let debounceTimer = null;
-  nameInput.addEventListener('input', () => {
-    const q = nameInput.value.trim();
-    clearTimeout(debounceTimer);
-
-    if (q.length < 2) {
-      searchResults.innerHTML = '';
-      return;
+      
+      const productNameDisplay = document.getElementById('product-name-display');
+      productNameDisplay.textContent = `Product Name: ${productName}`;
+      predictedPriceElement.textContent = `Predicted Price: KSh ${result.prediction.toFixed(2)}`;
+      priceRangeElement.textContent = `Price Range: KSh ${result.price_range.low.toFixed(2)} - KSh ${result.price_range.high.toFixed(2)}`;
+      confidenceLevelElement.textContent = `Confidence Level: ${result.confidence}`;
+      originalPriceDisplay.textContent = `Original Price: KSh ${originalPrice.toFixed(2)}`;
     }
 
-    debounceTimer = setTimeout(async () => {
-      const resp = await fetch(`/search?q=${encodeURIComponent(q)}`);
-      const items = await resp.json();
-      let html = '';
-      items.forEach(it => {
-        html += `
-          <div class="suggestion" style="padding:.5rem; border:1px solid #eee; cursor:pointer;">
-            <div><strong>${it.product_name}</strong></div>
-            <div style="font-size:.9rem;color:#555">
-              ${it.main_category} • Current: KSh ${it.current_price.toFixed(2)} • Original: KSh ${it.original_price.toFixed(2)}
-            </div>
-          </div>`;
-      });
-      searchResults.innerHTML = html;
+    productInputSection.classList.add('hidden');
+    priceResultsSection.classList.remove('hidden');
+    priceResultsSection.scrollIntoView({ behavior: "smooth" });
 
-      // Click to choose suggestion
-      Array.from(searchResults.querySelectorAll('.suggestion')).forEach(el => {
-        el.addEventListener('click', () => {
-          const text = el.querySelector('strong').textContent;
-          const meta = el.querySelector('div:nth-child(2)').textContent;
-          nameInput.value = text;
-
-          // try set category automatically
-          const cat = meta.split('•')[0].trim();
-          for (const opt of categorySelect.options) {
-            if (opt.text.toLowerCase() === cat.toLowerCase() || opt.value.toLowerCase() === cat.toLowerCase()) {
-              categorySelect.value = opt.value;
-              break;
-            }
-          }
-
-          searchResults.innerHTML = '';
-        });
-      });
-    }, 180);
-  });
-
-  // Hamburger menu functionality
-  const hamburger = document.getElementById("hamburger");
-  const navLinks = document.getElementById("nav-links");
-
-  if (hamburger && navLinks) {
-    hamburger.addEventListener("click", () => {
-      navLinks.classList.toggle("active");
-    });
+  } catch (error) {
+    predictedPriceElement.textContent = `Request failed: ${error.message}`;
+    priceRangeElement.textContent = '';
+    confidenceLevelElement.textContent = '';
+    originalPriceDisplay.textContent = '';
+    priceResultsSection.classList.remove('hidden');
+    priceResultsSection.scrollIntoView({ behavior: "smooth" });
   }
 });
-  // Fetch the latest 4 predictions from the backend
+
+
+});
+// --- Autocomplete for Product Name ---
+const nameInput = document.getElementById('product-name');
+const categorySelect = document.getElementById('main-category');
+const searchResults = document.getElementById('search-results');
+
+let debounceTimer = null;
+nameInput.addEventListener('input', () => {
+  const q = nameInput.value.trim();
+  clearTimeout(debounceTimer);
+
+  if (q.length < 2) {
+    searchResults.innerHTML = '';
+    return;
+  }
+
+  debounceTimer = setTimeout(async () => {
+    const resp = await fetch(`/search?q=${encodeURIComponent(q)}`);
+    const items = await resp.json();
+    let html = '';
+    items.forEach(it => {
+      html += `
+        <div class="suggestion" style="padding:.5rem; border:1px solid #eee; cursor:pointer;">
+          <div><strong>${it.product_name}</strong></div>
+          <div style="font-size:.9rem;color:#555">
+            ${it.main_category} • Current: KSh ${it.current_price.toFixed(2)} • Original: KSh ${it.original_price.toFixed(2)}
+          </div>
+        </div>`;
+    });
+    searchResults.innerHTML = html;
+
+    // Click to choose suggestion
+    Array.from(searchResults.querySelectorAll('.suggestion')).forEach(el => {
+      el.addEventListener('click', () => {
+        const text = el.querySelector('strong').textContent;
+        const meta = el.querySelector('div:nth-child(2)').textContent;
+        nameInput.value = text;
+
+        // try set category automatically
+        const cat = meta.split('•')[0].trim();
+        for (const opt of categorySelect.options) {
+          if (opt.text.toLowerCase() === cat.toLowerCase() || opt.value.toLowerCase() === cat.toLowerCase()) {
+            categorySelect.value = opt.value;
+            break;
+          }
+        }
+
+        searchResults.innerHTML = '';
+      });
+    });
+  }, 180);
+});
+
+// Hamburger menu functionality
+const hamburger = document.getElementById("hamburger");
+const navLinks = document.getElementById("nav-links");
+
+if (hamburger && navLinks) {
+  hamburger.addEventListener("click", () => {
+    navLinks.classList.toggle("active");
+  });
+}
+
+// Fetch the latest 4 predictions from the backend
 fetch('/latest_predictions')
   .then(response => response.json())
   .then(data => {
@@ -187,5 +234,17 @@ fetch('/latest_predictions')
         timestampElement.style.display = (timestampElement.style.display === 'block') ? 'none' : 'block';
       });
     });
+    categorySelect.addEventListener('change', () => {
+  const selectedCategory = categorySelect.value;
+
+  if (selectedCategory === 'electronics') {
+    document.getElementById('condition-options').style.display = 'block';  // Show the condition options (radio buttons)
+  } else {
+    document.getElementById('condition-options').style.display = 'none';  // Hide them for other categories
+  }
+});
+
   })
+
+
   .catch(error => console.log('Error fetching predictions:', error));

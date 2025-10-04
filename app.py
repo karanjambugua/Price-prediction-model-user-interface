@@ -237,6 +237,20 @@ def search():
         })
     return jsonify(out)
 
+def adjust_price(original_price: float, category: str) -> float:
+    """Adjust the user input price to be in line with similar items in the category."""
+    # Calculate the median price of the category in the dataset
+    category_data = data[data['main_category'].str.lower() == category.lower()]
+    category_median_price = category_data['original_price'].median()
+
+    # If the user input price is significantly lower than the median, adjust it
+    if original_price < category_median_price * 0.2:
+        # Adjust the price to be within 20% of the median category price
+        return category_median_price * 0.8  # Low-end reasonable price
+    elif original_price > category_median_price * 3:
+        # Adjust the price to be within 3x of the median category price
+        return category_median_price * 2.5  # High-end reasonable price
+    return original_price  # Keep the price as is if it's within the expected range
 
 @app.route('/predict', methods=['POST'])
 def predict():
@@ -250,6 +264,21 @@ def predict():
 
         if input_data['original_price'] <= 0:
             return jsonify({'error': 'Original price must be > 0'}), 400
+
+        # Check for reasonable price range based on database
+        product_data = data[data['name'].str.lower() == input_data['product_name'].lower()]
+        
+        if product_data.empty:
+            return jsonify({'error': 'Product not found in the database'}), 400
+
+        min_price = product_data['original_price'].min()
+        max_price = product_data['original_price'].max()
+
+        # Check if the original price is much lower (less than 50% of the product's price) or much higher (more than 200% of the price)
+        if input_data['original_price'] < min_price * 0.5:
+            return jsonify({'error': f"The entered price is too low. The typical price for this product is between KSh {min_price:.2f} and KSh {max_price:.2f}. Please enter a more reasonable price."}), 400
+        elif input_data['original_price'] > max_price * 2.0:
+            return jsonify({'error': f"The entered price is too high. The typical price for this product is between KSh {min_price:.2f} and KSh {max_price:.2f}. Please enter a more reasonable price."}), 400
 
         # Attempt category inference from dataset if missing
         if not input_data['main_category'] and input_data['product_name']:
@@ -283,6 +312,8 @@ def predict():
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
+
 
 @app.route('/predict_api', methods=['POST'])
 def predict_api():
@@ -326,6 +357,29 @@ def predict_api():
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+# Endpoint to fetch the product data for validation
+@app.route('/get_product_data', methods=['GET'])
+def get_product_data():
+    product_name = request.args.get('q', '').strip().lower()
+    if not product_name:
+        return jsonify({"error": "Product not found"}), 404
+    
+    # Find the product in the dataset
+    product_data = data[data['name'].str.lower() == product_name.lower()]
+    
+    if product_data.empty:
+        return jsonify({"error": "Product not found"}), 404
+    
+    # Extract relevant details: current price, original price
+    product_info = product_data.iloc[0]
+    product_info = {
+        "product_name": product_info['name'],
+        "current_price": product_info['current_price'],
+        "original_price": product_info['original_price']
+    }
+
+    return jsonify(product_info)
+
 
 if __name__ == '__main__':
     app.run(debug=True)

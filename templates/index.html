@@ -9,21 +9,20 @@
 <body>
 
   <!-- NAVBAR -->
- <nav class="navbar">
-  <div class="nav-logo">Price Predictor</div>
-  
-  <!-- Hamburger Icon -->
-  <div class="hamburger" id="hamburger">☰</div>
+  <nav class="navbar">
+    <div class="nav-logo">Price Predictor</div>
 
-  <!-- Nav Links -->
-  <ul class="nav-links" id="nav-links">
-  <li><a href="{{ url_for('home') }}">Home</a></li>
-  <li><a href="{{ url_for('data_page') }}">Data</a></li>
-  <li><a href="{{ url_for('team') }}">The Team</a></li>
-  <li><a href="{{ url_for('research') }}">Research</a></li>
-</ul>
+    <!-- Hamburger Icon -->
+    <div class="hamburger" id="hamburger">☰</div>
 
-</nav>
+    <!-- Nav Links -->
+    <ul class="nav-links" id="nav-links">
+      <li><a href="{{ url_for('home') }}">Home</a></li>
+      <li><a href="{{ url_for('data_page') }}">Data</a></li>
+      <li><a href="{{ url_for('team') }}">The Team</a></li>
+      <li><a href="{{ url_for('research') }}">Research</a></li>
+    </ul>
+  </nav>
 
   <!-- HERO SECTION -->
   <section id="home" class="hero-section">
@@ -37,125 +36,118 @@
   </section>
 
   <!-- PRODUCT INPUT SECTION -->
-<section id="product-input" class="section-container hidden">
-  <div class="section-content">
-    <h2>Enter Product Details</h2>
-    <form id="product-form">
-      <!-- Product Name -->
-     <!-- Main Category Dropdown -->
-     <div>
-  <label for="main-category">Main Category</label>
-  <select id="main-category" name="main_category" required>
-    <!-- Dynamically add options from categories -->
-    {% for category in categories %}
-      <option value="{{ category }}">{{ category }}</option>
-    {% endfor %}
-  </select>
-</div>
+  <section id="product-input" class="section-container hidden">
+    <div class="section-content">
+      <h2>Enter Product Details</h2>
+      <form id="product-form">
+        <!-- Main Category Dropdown -->
+        <div>
+          <label for="main-category">Main Category</label>
+          <select id="main-category" name="main_category" required>
+            <!-- Dynamically add options from categories -->
+            {% for category in categories %}
+              <option value="{{ category }}">{{ category }}</option>
+            {% endfor %}
+          </select>
+        </div>
 
+        <div>
+          <label for="product-name">Product Name</label>
+          <input type="text" id="product-name" name="product_name" placeholder="Product Name" required>
+          <div id="search-results"></div>  <!-- Add search results container -->
+        </div>
 
-      <div>
-        <label for="product-name">Product Name</label>
-        <input type="text" id="product-name" name="product_name" placeholder="Product Name" required>
-        <div id="search-results"></div>  <!-- Add search results container -->
-      </div>
+        <!-- Original Price -->
+        <div>
+          <label for="original-price">Original Price</label>
+          <input type="number" id="original-price" name="original_price" placeholder="Original Price" step="0.01" required>
+        </div>
 
-      <!-- Original Price -->
-      <div>
-        <label for="original-price">Original Price</label>
-        <input type="number" id="original-price" name="original_price" placeholder="Original Price" step="0.01" required>
-      </div>
+        <!-- Condition Radio Buttons (Initially hidden) -->
+        <div id="condition-options" class="radio-group" style="display:none;">
+          <label><input type="radio" name="condition" value="new"> New</label>
+          <label><input type="radio" name="condition" value="used"> Used</label>
+          <label><input type="radio" name="condition" value="refurbished"> Refurbished</label>
+        </div>
 
-      <!-- Condition Radio Buttons -->
-      <div class="radio-group">
-        <label><input type="radio" name="condition" value="new" required> New</label>
-        <label><input type="radio" name="condition" value="used"> Used</label>
-        <label><input type="radio" name="condition" value="refurbished"> Refurbished</label>
-      </div>
-
-      <!-- Submit and Cancel Buttons -->
-      <button type="submit" class="cta-btn">Get Prediction</button>
-      <button type="button" id="close-form-btn" class="cta-btn secondary">Cancel</button>
-    </form>
-  </div>
-</section>
+        <!-- Submit and Cancel Buttons -->
+        <button type="submit" class="cta-btn">Get Prediction</button>
+        <button type="button" id="close-form-btn" class="cta-btn secondary">Cancel</button>
+      </form>
+    </div>
+  </section>
 
   <!-- RESULT SECTION -->
-<section id="price-results" class="section-container hidden">
-  <div class="section-content">
-    <h2>Price Prediction</h2>
-    <p id="original-price-display">Original Price: Ksh</p>
-    <p id="predicted-price">Predicted Price: Ksh</p>
-    <p id="price-range">Price Range: Ksh</p>
-    <p id="confidence-level">Confidence Level: </p>
-    <button id="go-back-btn" class="cta-btn secondary">Go Back</button>
-  </div>
-</section>
- <!-- PREDICTION CARDS SECTION -->
-<section id="product-predictions" class="section-container">
-  <div class="section-content">
-    <h2>Product Predictions</h2>
-    <div class="prediction-cards" id="prediction-cards">
-      <!-- Sample Card (This will be generated dynamically from predictions) -->
-      <div class="prediction-card">
-        <h3>{{ product_name }}</h3>
-        <p>Category: {{ category }}</p>
-        <p>Current Price: KSh {{ current_price }}</p>
-        <p>Predicted Price: KSh {{ predicted_price }}</p>
-        <p class="price-range">Price Range: KSh {{ price_range_low }} - KSh {{ price_range_high }}</p>
-        <p class="confidence">Confidence: {{ confidence }}</p>
-        <button class="more-info-btn">More Info</button>
-        <p class="timestamp">{{ timestamp }}</p> <!-- Hidden until clicked -->
+  <section id="price-results" class="section-container hidden">
+    <div class="section-content">
+      <h2>Price Prediction</h2>
+       <p id="product-name-display">Product Name: </p> <!-- Display product name here -->
+      <p id="original-price-display">Original Price: Ksh</p>
+      <p id="predicted-price">Predicted Price: Ksh</p>
+      <p id="price-range">Price Range: Ksh</p>
+      <p id="confidence-level">Confidence Level: </p>
+      <button id="go-back-btn" class="cta-btn secondary">Go Back</button>
+    </div>
+  </section>
+
+  <!-- PREDICTION CARDS SECTION -->
+  <section id="product-predictions" class="section-container">
+    <div class="section-content">
+      <h2>Product Predictions</h2>
+      <div class="prediction-cards" id="prediction-cards">
+        <!-- Sample Card (This will be generated dynamically from predictions) -->
+        <div class="prediction-card">
+          <h3>{{ product_name }}</h3>
+          <p>Category: {{ category }}</p>
+          <p>Current Price: KSh {{ current_price }}</p>
+          <p>Predicted Price: KSh {{ predicted_price }}</p>
+          <p class="price-range">Price Range: KSh {{ price_range_low }} - KSh {{ price_range_high }}</p>
+          <p class="confidence">Confidence: {{ confidence }}</p>
+          <button class="more-info-btn">More Info</button>
+          <p class="timestamp">{{ timestamp }}</p> <!-- Hidden until clicked -->
+        </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
- <!-- FOOTER -->
-<footer class="site-footer">
-  <div class="footer-container">
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-col">
+        <h3>Price Predictor</h3>
+        <p>Empowering entrepreneurs with data-driven pricing decisions.</p>
+      </div>
 
-    <!-- Column 1: Logo & Tagline -->
-    <div class="footer-col">
-      <h3>Price Predictor</h3>
-      <p>Empowering entrepreneurs with data-driven pricing decisions.</p>
-    </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="{{ url_for('home') }}">Home</a></li>
+          <li><a href="{{ url_for('data_page') }}">Data</a></li>
+          <li><a href="{{ url_for('research') }}">Research</a></li>
+          <li><a href="{{ url_for('team') }}">The Team</a></li>
+        </ul>
+      </div>
 
-    <!-- Column 2: Quick Links -->
-    <div class="footer-col">
-      <h4>Quick Links</h4>
-      <ul>
-        <li><a href="{{ url_for('home') }}">Home</a></li>
-        <li><a href="{{ url_for('data_page') }}">Data</a></li>
-        <li><a href="{{ url_for('research') }}">Research</a></li>
-        <li><a href="{{ url_for('team') }}">The Team</a></li>
-      </ul>
-    </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <p>Email: <a href="mailto:support@pricepredictor.com">support@pricepredictor.com</a></p>
+        <p>Phone: +254 (123) 456-789</p>
+      </div>
 
-    <!-- Column 3: Contact -->
-    <div class="footer-col">
-      <h4>Contact</h4>
-      <p>Email: <a href="mailto:support@pricepredictor.com">support@pricepredictor.com</a></p>
-      <p>Phone: +254 (123) 456-789</p>
-    </div>
-
-    <!-- Column 4: Socials -->
-    <div class="footer-col">
-      <h4>Follow Us</h4>
-      <div class="social-links">
-        <a href="https://www.linkedin.com" target="_blank">🌐 LinkedIn</a><br>
-        <a href="https://twitter.com" target="_blank">🐦 Twitter</a><br>
-        <a href="https://www.facebook.com" target="_blank">📘 Facebook</a>
+      <div class="footer-col">
+        <h4>Follow Us</h4>
+        <div class="social-links">
+          <a href="https://www.linkedin.com" target="_blank">🌐 LinkedIn</a><br>
+          <a href="https://twitter.com" target="_blank">🐦 Twitter</a><br>
+          <a href="https://www.facebook.com" target="_blank">📘 Facebook</a>
+        </div>
       </div>
     </div>
-  </div>
 
-  <!-- Bottom Bar -->
-  <div class="footer-bottom">
-    <p>&copy; 2025 Price Predictor. All rights reserved.</p>
-  </div>
-</footer>
-
+    <div class="footer-bottom">
+      <p>&copy; 2025 Price Predictor. All rights reserved.</p>
+    </div>
+  </footer>
 
   <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
