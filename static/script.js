@@ -111,10 +111,10 @@ productForm.addEventListener('submit', async (e) => {
       
       const productNameDisplay = document.getElementById('product-name-display');
       productNameDisplay.textContent = `Product Name: ${productName}`;
-      predictedPriceElement.textContent = `Predicted Price: KSh ${result.prediction.toFixed(2)}`;
-      priceRangeElement.textContent = `Price Range: KSh ${result.price_range.low.toFixed(2)} - KSh ${result.price_range.high.toFixed(2)}`;
+      predictedPriceElement.textContent = `Optimal Price: KSh ${result.prediction.toFixed(2)}`;
+      priceRangeElement.textContent = `Market Price Range: KSh ${result.price_range.low.toFixed(2)} - KSh ${result.price_range.high.toFixed(2)}`;
       confidenceLevelElement.textContent = `Confidence Level: ${result.confidence}`;
-      originalPriceDisplay.textContent = `Original Price: KSh ${originalPrice.toFixed(2)}`;
+      originalPriceDisplay.textContent = `Preferred Price: KSh ${originalPrice.toFixed(2)}`;
     }
 
     productInputSection.classList.add('hidden');
