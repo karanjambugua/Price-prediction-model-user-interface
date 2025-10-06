@@ -81,7 +81,7 @@ productForm.addEventListener('submit', async (e) => {
 
   // Check if the entered original price is within the reasonable range
   if (originalPrice < minPrice || originalPrice > maxPrice) {
-    alert(`The entered price is unrealistic. Please enter a price between KSh ${minPrice.toFixed(2)} and KSh ${maxPrice.toFixed(2)} for this product.`);
+    alert(`The entered price varies greatly from market price. Please enter a price between KSh ${minPrice.toFixed(2)} and KSh ${maxPrice.toFixed(2)} for this product.`);
     return;
   }
 

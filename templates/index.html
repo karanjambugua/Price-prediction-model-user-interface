@@ -18,9 +18,7 @@
     <!-- Nav Links -->
     <ul class="nav-links" id="nav-links">
       <li><a href="{{ url_for('home') }}">Home</a></li>
-      <li><a href="{{ url_for('data_page') }}">Data</a></li>
-      <li><a href="{{ url_for('team') }}">The Team</a></li>
-      <li><a href="{{ url_for('research') }}">Research</a></li>
+      
     </ul>
   </nav>
 
@@ -82,8 +80,8 @@
     <div class="section-content">
       <h2>Price Prediction</h2>
        <p id="product-name-display">Product Name: </p> <!-- Display product name here -->
-      <p id="original-price-display">Original Price: Ksh</p>
-      <p id="predicted-price">Predicted Price: Ksh</p>
+      <p id="original-price-display">Preferred Price: Ksh</p>
+      <p id="predicted-price">Optimal Price: Ksh</p>
       <p id="price-range">Price Range: Ksh</p>
       <p id="confidence-level">Confidence Level: </p>
       <button id="go-back-btn" class="cta-btn secondary">Go Back</button>
@@ -100,7 +98,7 @@
           <h3>{{ product_name }}</h3>
           <p>Category: {{ category }}</p>
           <p>Current Price: KSh {{ current_price }}</p>
-          <p>Predicted Price: KSh {{ predicted_price }}</p>
+          <p>Optimal Price: KSh {{ predicted_price }}</p>
           <p class="price-range">Price Range: KSh {{ price_range_low }} - KSh {{ price_range_high }}</p>
           <p class="confidence">Confidence: {{ confidence }}</p>
           <button class="more-info-btn">More Info</button>
@@ -128,21 +126,6 @@
         </ul>
       </div>
 
-      <div class="footer-col">
-        <h4>Contact</h4>
-        <p>Email: <a href="mailto:support@pricepredictor.com">support@pricepredictor.com</a></p>
-        <p>Phone: +254 (123) 456-789</p>
-      </div>
-
-      <div class="footer-col">
-        <h4>Follow Us</h4>
-        <div class="social-links">
-          <a href="https://www.linkedin.com" target="_blank">🌐 LinkedIn</a><br>
-          <a href="https://twitter.com" target="_blank">🐦 Twitter</a><br>
-          <a href="https://www.facebook.com" target="_blank">📘 Facebook</a>
-        </div>
-      </div>
-    </div>
 
     <div class="footer-bottom">
       <p>&copy; 2025 Price Predictor. All rights reserved.</p>

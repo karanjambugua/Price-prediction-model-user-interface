@@ -276,9 +276,9 @@ def predict():
 
         # Check if the original price is much lower (less than 50% of the product's price) or much higher (more than 200% of the price)
         if input_data['original_price'] < min_price * 0.5:
-            return jsonify({'error': f"The entered price is too low. The typical price for this product is between KSh {min_price:.2f} and KSh {max_price:.2f}. Please enter a more reasonable price."}), 400
+            return jsonify({'error': f"The entered price is below the market price. The typical price for this product is between KSh {min_price:.2f} and KSh {max_price:.2f}. Please enter a better price."}), 400
         elif input_data['original_price'] > max_price * 2.0:
-            return jsonify({'error': f"The entered price is too high. The typical price for this product is between KSh {min_price:.2f} and KSh {max_price:.2f}. Please enter a more reasonable price."}), 400
+            return jsonify({'error': f"The entered price is above the market price. The typical price for this product is between KSh {min_price:.2f} and KSh {max_price:.2f}. Please enter a better price."}), 400
 
         # Attempt category inference from dataset if missing
         if not input_data['main_category'] and input_data['product_name']:
